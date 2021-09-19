@@ -1,0 +1,35 @@
+{
+  "name": "Medikis App",
+  "version": "1.0.0",
+  "description": "Monitoreo y Controles pediatricos",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "echo \"Error: no test specified\"",
+    "clean-modules": "rm -rf node_modules/aws-sdk && modclean -rvn default:safe,default:caution",
+    "zip": "python tools/zip.py ./ ./build/deploy.zip",
+    "update-function": "aws lambda update-function-code --function-name SWoT --zip-file fileb://build/deploy.zip",
+    "deploy": "npm run clean-modules && npm run zip && npm run update-function"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jpdillingham/SWoT.git"
+  },
+  "author": "JP Dillingham",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/jpdillingham/SWoT/issues"
+  },
+  "homepage": "https://github.com/jpdillingham/SWoT#readme",
+  "dependencies": {
+    "aws-serverless-express": "^3.1.3",
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.2"
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.415.0",
+    "modclean": "^2.1.2",
+    "modclean-patterns-default": "^1.1.1"
+  }
+}
