@@ -6,6 +6,7 @@ import {
 } from "material-ui/styles/colors";
 
 export const API_ROOT = "https://u8sie6ns6c.execute-api.us-east-1.amazonaws.com/deployment";
+//export const API_ROOT = "http://localhost:4000/api";
 
 export const EXERCISE_TYPES = [ 'Antropometria', 'Signos Vitales', 'Cabeza Cara Cuello', 'Torax', 'Abdomen', 'Sistema Musculo Esqueletico', 'Laboratorio', 'Vacunacion' ];
 

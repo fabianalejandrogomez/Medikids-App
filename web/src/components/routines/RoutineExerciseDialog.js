@@ -15,7 +15,7 @@ const styles = {
 };
 
 const initialState = {
-    exercise: { id: undefined },
+    exercise: { _id: undefined },
 };
 
 class RoutineExerciseDialog extends Component {
@@ -31,7 +31,7 @@ class RoutineExerciseDialog extends Component {
 
     handleExerciseChange = (event, index, value) => {
         this.setState(prevState => ({
-            exercise: this.props.exercises.find(e => e.id === value),
+            exercise: this.props.exercises.find(e => e._id === value),
         }));
     }
 
@@ -67,8 +67,8 @@ class RoutineExerciseDialog extends Component {
                 >
                     {this.props.exercises.map(e => 
                         <MenuItem 
-                            key={e.id} 
-                            value={e.id} 
+                            key={e._id} 
+                            value={e._id} 
                             primaryText={e.name}
                              leftIcon={
                                 <img 

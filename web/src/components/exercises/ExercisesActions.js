@@ -20,7 +20,7 @@ const exercisesPut = (exercise) => ({
 
 const exercisesDelete = (id) => ({
     type: 'EXERCISES_DELETE',
-    id: id,
+    _id: id,
 });
 
 export const fetchExercises = () => (dispatch, getState) => {
@@ -58,11 +58,12 @@ export const addExercise = (exercise) => (dispatch, getState) => {
 
 export const updateExercise = (exercise) => (dispatch, getState) => {
     return new Promise((resolve, reject) => {
-        api.put(endpoint + '/' + exercise.id, exercise)
+        api.put(endpoint + '/' + exercise._id, exercise)
         .then(response => {
             if (response.status === 200) {
                 dispatch(exercisesPut(response.data));
                 resolve(response);
+                window.location.reload(false);
             }
             else {
                 reject('Unknown PUT response code (expected 200, received ' + response.status + ').');
@@ -80,6 +81,7 @@ export const deleteExercise = (id) => (dispatch, getState) => {
             if (response.status === 204) {
                 dispatch(exercisesDelete(id));
                 resolve(response);
+                window.location.reload(false);
             }
             else {
                 reject('Unknown DELETE response code (expected 204, received ' + response.status + ').');

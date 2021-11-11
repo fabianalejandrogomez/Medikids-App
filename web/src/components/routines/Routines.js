@@ -58,7 +58,7 @@ class Routines extends Component {
 
     handleRoutineDelete = (routine) => {
         return new Promise((resolve, reject) => {
-            this.props.deleteRoutine(routine.id)
+            this.props.deleteRoutine(routine._id)
             .then(response => {
                 this.props.showSnackbar('Deleted Routine \'' + routine.name + '\'.');
                 resolve(response);
@@ -78,7 +78,7 @@ class Routines extends Component {
                             <div style={styles.grid}>
                                 {this.props.routines.map(r =>  
                                     <RoutineCard 
-                                        key={r.id} 
+                                        key={r._id} 
                                         routine={r} 
                                         onDelete={() => this.handleRoutineDelete(r)}
                                     />

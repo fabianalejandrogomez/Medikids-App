@@ -54,11 +54,12 @@ export const addRoutine = (routine) => (dispatch, getState) => {
 
 export const updateRoutine = (routine) => (dispatch, getState) => {
     return new Promise((resolve, reject) => {
-        api.put(endpoint + '/' + routine.id, routine)
+        api.put(endpoint + '/' + routine._id, routine)
         .then(response => {
             if (response.status === 200) {
                 dispatch(routinesPut(response.data));
                 resolve(response);
+                window.location.reload(false);
             }
             else {
                 reject('Unknown PUT response code (expected 200, received ' + response.status + ').');
@@ -76,6 +77,7 @@ export const deleteRoutine = (id) => (dispatch, getState) => {
             if (response.status === 204) {
                 dispatch(routinesDelete(id));
                 resolve(response);
+                window.location.reload(false);
             }
             else {
                 reject('Unknown DELETE response code (expected 204, received ' + response.status + ').');

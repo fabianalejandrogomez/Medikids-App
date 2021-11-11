@@ -56,7 +56,7 @@ class Exercises extends Component {
 
     handleExerciseDelete = (exercise) => {
         return new Promise((resolve, reject) => {
-            this.props.deleteExercise(exercise.id)
+            this.props.deleteExercise(exercise._id)
             .then(response => {
                 this.props.showSnackbar('Medicion Borrada \'' + exercise.name + '\'.');
                 resolve(response);
