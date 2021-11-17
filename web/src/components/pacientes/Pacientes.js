@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { fetchExercises, deleteExercise } from './ExercisesActions';
+import { fetchPacientes, deletePaciente } from './PacientesActions';
 import { setTitle, showSnackbar } from '../app/AppActions';
 
 import Spinner from '../shared/Spinner';
-import ExerciseCard from './ExerciseCard';
+import PacienteCard from './PacienteCard';
 
 import { red500 } from 'material-ui/styles/colors';
 import ActionHighlightOff from 'material-ui/svg-icons/action/highlight-off';
 import AddFloatingActionButton from '../shared/AddFloatingActionButton';
-import ExerciseDialog from './ExerciseDialog';
+import PacienteDialog from './PacienteDialog';
 
 import { CARD_WIDTH, INTENTS } from '../../constants';
 
@@ -37,31 +37,32 @@ const initialState = {
     },
 };
 
-class Exercises extends Component {
+class Pacientes extends Component {
     state = initialState;
     
     componentWillMount() {
-        this.props.setTitle('Mediciones');
+        this.props.setTitle('Pacientes');
         
         this.setState({ api: { ...this.state.api, isExecuting: true }}, () => {
-            this.props.fetchExercises()
+            console.log(this.props.fetchPacientes());
+            this.props.fetchPacientes()
             .then(response => {
                 this.setState({ api: { isExecuting: false, isErrored: false }});
             }, error => {
-                this.props.showSnackbar('Error mostrando Mediciones: ' + error);
+                this.props.showSnackbar('Error mostrando Pacientes: ' + error);
                 this.setState({ api: { isExecuting: false, isErrored: true }});
             });
         });
     }
 
-    handleExerciseDelete = (exercise) => {
+    handlePacienteDelete = (paciente) => {
         return new Promise((resolve, reject) => {
-            this.props.deleteExercise(exercise._id)
+            this.props.deletePaciente(paciente._id)
             .then(response => {
-                this.props.showSnackbar('Medicion Borrada \'' + exercise.name + '\'.');
+                this.props.showSnackbar('Paciente Borrado \'' + paciente.name + '\'.');
                 resolve(response);
             }, error => {
-                this.props.showSnackbar('Error borrando Medicion \'' + exercise.name + '\': ' + error);
+                this.props.showSnackbar('Error borrando Paciente \'' + paciente.name + '\': ' + error);
                 reject(error);
             });
         });
@@ -70,20 +71,22 @@ class Exercises extends Component {
     render() {
         return (
             this.state.api.isExecuting ? <Spinner size={48}/> : 
-                this.state.api.isErrored ? <ActionHighlightOff style={{ ...styles.icon, color: red500 }} /> :
+                this.state.api.isErrored  ? <ActionHighlightOff style={{ ...styles.icon, color: red500 }} /> :
                     <div>
                         <div style={styles.grid}>
-                            {this.props.exercises.map(e =>  
-                                <ExerciseCard 
+                            {console.log(this.props)}
+                            {
+                            this.props.pacientes.map(e =>  
+                                <PacienteCard 
                                     key={e._id}
-                                    exercise={e} 
-                                    onDelete={() => this.handleExerciseDelete(e)}
+                                    paciente={e} 
+                                    onDelete={() => this.handlePacienteDelete(e)}
                                 />
                             )}
                         </div>
                         <AddFloatingActionButton 
-                            startOpen={!this.props.exercises.length}
-                            dialog={<ExerciseDialog intent={INTENTS.ADD} />} 
+                            startOpen={!this.props.pacientes.length}
+                            dialog={<PacienteDialog intent={INTENTS.ADD} />} 
                         />
                     </div>
         );
@@ -91,14 +94,14 @@ class Exercises extends Component {
 } 
 
 const mapStateToProps = (state) => ({
-    exercises: state.exercises,
+    pacientes: state.pacientes,
 });
 
 const mapDispatchToProps = {
-    fetchExercises,
-    deleteExercise,
+    fetchPacientes,
+    deletePaciente,
     showSnackbar,
     setTitle,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Exercises);
+export default connect(mapStateToProps, mapDispatchToProps)(Pacientes);

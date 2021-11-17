@@ -36,7 +36,7 @@ class ExerciseHistoryDialog extends Component {
     componentWillReceiveProps = (nextProps) => {
         if (!this.props.open && nextProps.open) {
             this.props.clearExercisesHistory().then(() => {
-                this.fetchHistory({ ...this.state.filters, exerciseId: nextProps.exercise.id });
+                this.fetchHistory({ ...this.state.filters, exerciseId: nextProps.exercise._id });
             });
         }
     }
@@ -44,7 +44,7 @@ class ExerciseHistoryDialog extends Component {
     fetchHistory = (filters) => {
         this.setState({ 
             api: { ...this.state.api, isExecuting: true },
-            filters: { ...filters, exerciseId: this.props.exercise.id },
+            filters: { ...filters, exerciseId: this.props.exercise._id },
         }, () => {
             this.props.fetchExercisesHistory(filters)
             .then(response => {
@@ -62,7 +62,7 @@ class ExerciseHistoryDialog extends Component {
     }
 
     handleViewFullHistoryClick = () => {
-        this.navigate('/exercises/history/' + this.props.exercise.id);
+        this.navigate('/exercises/history/' + this.props.exercise._id);
     }
 
     navigate = (url) => {

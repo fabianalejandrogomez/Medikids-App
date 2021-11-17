@@ -127,15 +127,6 @@ class ExerciseEditorCard extends Component {
                                 value={exercise.endTime ? exercise.endTime : ''}
                                 disabled={this.props.disabled}
                             /><br/>
-                            <TextField
-                                style={styles.field}
-                                hintText={'Notas'}
-                                floatingLabelText={'Notas'}
-                                multiLine={true}
-                                onChange={(event, newValue) => this.handlePropertyChange('notas', newValue)}
-                                value={exercise.notes ? exercise.notes : ''}
-                                disabled={this.props.disabled}
-                            />
                         </List>
                     </CardText>
                 </Card>

@@ -11,10 +11,12 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Snackbar from 'material-ui/Snackbar';
 import Subheader from 'material-ui/Subheader/Subheader';
 import Divider from 'material-ui/Divider';
+import Select from 'material-ui/SelectField'
 
 import AppContainer from './AppContainer';
 
 import Exercises from '../exercises/Exercises';
+import Pacientes from '../pacientes/Pacientes';
 import ExercisesHistory from '../exercises/history/ExercisesHistory';
 import ExerciseProgress from '../exercises/history/ExerciseProgress';
 import Workout from '../workouts/Workout';
@@ -89,18 +91,13 @@ class App extends Component {
                                 <div>
                                     <div style={styles.topMenuItems}>
                                         <Subheader>Pacientes</Subheader>
-                                        <MenuItem containerElement={<Link to='/workouts'/>} leftIcon={<ActionDashboard/>}>Administrar Paciente</MenuItem>
-                                        <MenuItem containerElement={<Link to='/workouts'/>} leftIcon={<ActionDashboard/>}>Seleccionar Paciente</MenuItem>
+                                        <MenuItem containerElement={<Link to='/pacientes'/>} leftIcon={<ActionDashboard/>}>Administrar Pacientes</MenuItem>
                                         <Subheader>Eventos</Subheader>
-                                        <MenuItem containerElement={<Link to='/workouts'/>} leftIcon={<ActionDashboard/>}>Dashboard</MenuItem>
+                                        <MenuItem containerElement={<Link to='/workouts'/>} leftIcon={<ActionDashboard/>}>Eventos</MenuItem>
                                         <MenuItem containerElement={<Link to="/workouts/calendar" />} leftIcon={<ActionEvent/>}>Calendario</MenuItem>
-                                        <MenuItem containerElement={<Link to='/workouts/history'/>} leftIcon={<ActionHistory/>}>Historia</MenuItem>
-                                        <Subheader>Estudios</Subheader>
-                                        <MenuItem containerElement={<Link to="/routines" />} leftIcon={<ActionBuild/>}>Configuracion</MenuItem>
-                                        <Subheader>Mediciones</Subheader>
-                                        <MenuItem containerElement={<Link to='/exercises/progress'/>} leftIcon={<ActionTrendingUp/>}>Progreso</MenuItem>
-                                        <MenuItem containerElement={<Link to='/exercises/history'/>} leftIcon={<ActionHistory/>}>Historia</MenuItem>
-                                        <MenuItem containerElement={<Link to='/exercises'/>} leftIcon={<ActionBuild/>}>Configuracion</MenuItem>
+                                        <Subheader>Configuracion</Subheader>
+                                        <MenuItem containerElement={<Link to="/routines" />} leftIcon={<ActionBuild/>}>Estudios</MenuItem>
+                                        <MenuItem containerElement={<Link to='/exercises'/>} leftIcon={<ActionBuild/>}>Mediciones</MenuItem>
                                     </div>
                                     <div style={styles.bottomMenuItems}>
                                         <Divider/>
@@ -126,6 +123,7 @@ class App extends Component {
                                 <Route exact path="/exercises/history" component={ExercisesHistory}/>
                                 <Route path="/exercises/history/:id" component={ExercisesHistory}/>
                                 <Route path="/routines" component={Routines}/>
+                                <Route path="/pacientes" component={Pacientes}/>
                             </Switch> :
                             <Switch>
                                 <Route path="/login" component={Login}/>

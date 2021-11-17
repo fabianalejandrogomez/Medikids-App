@@ -269,15 +269,6 @@ class WorkoutEditorCard extends Component {
                             value={workout.endTime}
                             disabled={refreshing}
                         />
-                        <TextField
-                            style={styles.field}
-                            hintText={'Notes'}
-                            floatingLabelText={'Notas'}
-                            multiLine={true}
-                            onChange={(event, newValue) => this.handlePropertyChange('notes', newValue)}
-                            value={workout.notes ? workout.notes : ''}
-                            disabled={refreshing}
-                        />
                         {this.state.api.isExecuting ? <Spinner style={styles.spinner}/> : ''}
                     </CardText>
                 </Card>
@@ -288,7 +279,7 @@ class WorkoutEditorCard extends Component {
                     onClose={this.handleDeleteDialogClose}
                     open={this.state.deleteDialog.open} 
                 >
-                    Estas seguro que queres borrar la historia de un evento? '{this.props.workout.routine.name}'?
+                    Estas seguro que queres borrar la historia de un evento? '{this.props.workout.routine._id}'?
                 </ConfirmDialog>
             </div>
         );

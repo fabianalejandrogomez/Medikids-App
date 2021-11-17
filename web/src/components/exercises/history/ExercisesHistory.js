@@ -185,11 +185,11 @@ class ExercisesHistory extends Component {
                                             {this.props.exercises.map((e, index) => 
                                                 <MenuItem 
                                                     key={index} 
-                                                    value={e.id} 
+                                                    value={e._id} 
                                                     primaryText={e.name} 
                                                 />                    
                                             )}
-                                            {!this.state.filters.exerciseId || this.props.exercises.find(e => e.id === this.state.filters.exerciseId) ? '' :
+                                            {!this.state.filters.exerciseId || this.props.exercises.find(e => e._id === this.state.filters.exerciseId) ? '' :
                                                 <MenuItem key={-1} value={this.state.filters.exerciseId} primaryText={'Invalid Exercise Id'}/>
                                             }
                                         </SelectField>

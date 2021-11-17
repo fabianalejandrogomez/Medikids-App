@@ -70,8 +70,7 @@ class SecurityCard extends Component {
                 >
                     <CardMedia style={styles.media}>
                         <div style={styles.iconGroup}>
-                            <img style={styles.iconForeground} src="/img/weightlifting.png" alt="" />
-                            <span style={styles.iconText}><strong>S</strong>imple <strong>Wo</strong>rkout <strong>T</strong>racker</span>
+                            <span style={styles.iconText}><strong>M</strong>edi <strong>K</strong>ids</span>
                         </div>
                     </CardMedia>
                     <div style={styles.container}>

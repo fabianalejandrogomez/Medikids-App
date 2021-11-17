@@ -11,13 +11,15 @@ import App from './components/app/App';
 import ExercisesReducer from './components/exercises/ExercisesReducer';
 import ExercisesHistoryReducer from './components/exercises/history/ExercisesHistoryReducer';
 import AppReducer from './components/app/AppReducer';
+import PacientesReducer from './components/pacientes/PacientesReducer';
 import RoutinesReducer from './components/routines/RoutinesReducer';
 import WorkoutsReducer from './components/workouts/WorkoutsReducer';
 import WorkoutsHistoryReducer from './components/workouts/history/WorkoutsHistoryReducer';
 import SecurityReducer from './components/security/SecurityReducer';
 
 const rootReducer = combineReducers({ 
-    app: AppReducer, 
+    app: AppReducer,
+    pacientes: PacientesReducer, 
     exercises: ExercisesReducer,
     exercisesHistory: ExercisesHistoryReducer,
     routines: RoutinesReducer,

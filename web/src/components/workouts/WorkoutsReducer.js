@@ -4,6 +4,8 @@ const WorkoutsReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'WORKOUTS_GET':
             return action.workouts;
+        case 'WORKOUT_GET':
+            return state.concat(action.workout);
         case 'WORKOUTS_POST':
             return state.concat(action.workout);
         case 'WORKOUTS_PUT': 

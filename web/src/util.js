@@ -1,5 +1,7 @@
 export const getElapsedTime = (start, end) => {
-    end = end || new Date().getTime();
+    start = typeof start === 'undefined' ? new Date().getTime() : Date.parse(start);  
+    end = typeof end === 'undefined' ? new Date().getTime() : Date.parse(end);
+   
     let duration = Math.trunc((end - start) / 1000);
 
     let formatTime = (seconds) => {

@@ -198,7 +198,7 @@ class WorkoutsCalendar extends Component {
         workouts = workouts.map(w => { 
             let color = !w.routine.color || w.routine.color === 0 ? red500 : w.routine.color;
             return { 
-                id: w.id, 
+                id: w._id, 
                 title: w.routine.name, 
                 start: moment(w.startTime || w.scheduledTime).toDate(), 
                 end: moment(w.endTime || w.startTime || w.scheduledTime).toDate(),

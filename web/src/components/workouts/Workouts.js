@@ -101,11 +101,6 @@ class Workouts extends Component {
                                 onClick={this.handleClick}
                                 hideIfEmpty={true}
                             >
-                                <FlatButton 
-                                    label="Ver Historial Completo" 
-                                    fullWidth={true}
-                                    onClick={() => this.navigate('/workouts/history')}
-                                />
                             </WorkoutsListCard>
                             <AddFloatingAddButton 
                                 startOpen={this.props.routines.length && !this.props.workouts.length && !this.props.workoutsHistory.workouts.length}

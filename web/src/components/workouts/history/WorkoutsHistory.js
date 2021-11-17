@@ -202,7 +202,7 @@ class WorkoutsHistory extends Component {
                                                     />
                                                 }
                                                 rightIcon={<ActionInfo color={black}/>}
-                                                onClick={() => this.handleItemClick(w.id)}
+                                                onClick={() => this.handleItemClick(w._id)}
                                                 disabled={this.props.refreshing}
                                             />
                                         );

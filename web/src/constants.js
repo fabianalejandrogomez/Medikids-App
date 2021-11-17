@@ -5,13 +5,15 @@ import {
     deepPurple500, lightBlue500, lightGreen500, amber500,
 } from "material-ui/styles/colors";
 
-export const API_ROOT = "https://u8sie6ns6c.execute-api.us-east-1.amazonaws.com/deployment";
-//export const API_ROOT = "http://localhost:4000/api";
+//export const API_ROOT = "https://u8sie6ns6c.execute-api.us-east-1.amazonaws.com/deployment";
+export const API_ROOT = "http://localhost:4000/api";
 
 export const EXERCISE_TYPES = [ 'Antropometria', 'Signos Vitales', 'Cabeza Cara Cuello', 'Torax', 'Abdomen', 'Sistema Musculo Esqueletico', 'Laboratorio', 'Vacunacion' ];
+export const PACIENTE_TYPES = [ 'Masculino', 'Femenino'];
 
 export const WORKOUT_AVATAR_COLOR = '#f44336';
 export const EXERCISE_AVATAR_COLOR = '#00c853';
+export const PACIENTE_AVATAR_COLOR = '#00c853';
 
 export const ROUTINE_AVATAR_COLOR = '#ffab00';
 export const CARD_WIDTH = 390;

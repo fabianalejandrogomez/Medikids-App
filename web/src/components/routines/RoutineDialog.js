@@ -199,7 +199,7 @@ class RoutineDialog extends Component {
                     actionsContainerStyle={refreshStyle}
                     titleStyle={refreshStyle}
                     contentStyle={{ ...styles.dialogContent, refreshStyle }}
-                    title={(this.props.intent === INTENTS.ADD ? 'Agregar' : this.props.intent === INTENTS.EDIT ? 'Editar' : 'Duplicar') + 'Estudio'} 
+                    title={(this.props.intent === INTENTS.ADD ? 'Agregar ' : this.props.intent === INTENTS.EDIT ? 'Editar' : 'Duplicar') + 'Estudio'} 
                     autoScrollBodyContent={true}
                     actions={
                         <div>

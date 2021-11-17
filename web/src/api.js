@@ -7,6 +7,7 @@ const api = axios.create();
 api.interceptors.request.use(config => {
         return store.dispatch(() => {
             config.headers.Authorization = store.getState().security.session.idToken.jwtToken;
+            config.headers.UserId = store.getState().security.user;
 
             return Promise.resolve(config);
         }, err => {

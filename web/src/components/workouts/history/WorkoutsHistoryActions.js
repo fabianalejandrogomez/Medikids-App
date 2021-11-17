@@ -84,7 +84,7 @@ export const clearWorkoutHistory = () => (dispatch, getState) => {
 
 export const updateWorkoutHistory = (workout) => (dispatch, getState) => {
     return new Promise((resolve, reject) => {
-        api.put(endpoint + '/' + workout.id, workout)
+        api.put(endpoint + '/' + workout._id, workout)
         .then(response => {
             dispatch(workoutHistoryPut(response.data));
             resolve(response);

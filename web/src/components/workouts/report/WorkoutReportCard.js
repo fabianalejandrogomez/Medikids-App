@@ -79,7 +79,7 @@ class WorkoutReportCard extends Component {
                     <CardHeader                        
                         titleStyle={{ ...styles.cardTitle, color: fontColor }}
                         style={{ ...styles.cardHeader, backgroundColor: color }}
-                        title={this.props.workout.routine.name}
+                        title={this.props.workout.routine.name + " - Paciente: " + this.props.workout.paciente.name}
                         subtitle={
                             'Completado ' + moment(this.props.workout.endTime).calendar()
                         }
@@ -106,15 +106,6 @@ class WorkoutReportCard extends Component {
                         {this.props.workout.routine.exercises.map((e, index) => 
                             <ExerciseReportCard key={index} exercise={e}/>
                         )}
-                        <List>
-                            <ToggledLeftRightListItem
-                                leftIcon={<ActionSpeakerNotes color={black}/>}
-                                leftText={'Notas'}
-                                defaultToggleOpen={true}
-                            >
-                                {!this.props.workout.notes ? '' : <p>{this.props.workout.notes}</p>}
-                            </ToggledLeftRightListItem>
-                        </List>
                     </CardText>
                 </Card>
                 <ConfirmDialog 

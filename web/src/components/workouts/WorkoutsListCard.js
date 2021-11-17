@@ -73,10 +73,11 @@ class WorkoutsListCard extends Component {
                                 .sort(this.sort)
                                 .map((w, index) => {
                                     let color = !w.routine.color || w.routine.color === 0 ? red500 : w.routine.color;
+                                    {console.log(w._id)}
                                     return (
                                         <ListItem
                                             key={index}
-                                            primaryText={w.routine.name}
+                                            primaryText={w.routine.name + " - Paciente: " + w.paciente.name}
                                             secondaryText={this.props.timePrefix + ' ' + moment(w[this.props.timeField]).calendar()}
                                             leftAvatar={
                                                 <Avatar 
@@ -86,7 +87,7 @@ class WorkoutsListCard extends Component {
                                                 }/>
                                             }
                                             rightIcon={this.props.itemRightIcon}
-                                            onClick={() => this.props.onClick(w.id)}
+                                            onClick={() => this.props.onClick(w._id)}
                                             disabled={this.props.refreshing}
                                         />
                                     );

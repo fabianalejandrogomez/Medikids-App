@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 
 import { fetchRoutines } from '../routines/RoutinesActions';
+import {fetchPacientes } from '../pacientes/PacientesActions';
 import { addWorkout } from '../workouts/WorkoutsActions';
 import Spinner from '../shared/Spinner';
 import { grey300, red500 } from 'material-ui/styles/colors';
@@ -40,11 +41,12 @@ const getInitialState = () => ({
     selectedDate: new Date(),
     selectedTime: new Date(),
     workout: {
-        id: getGuid(),
-        routine: { id: undefined },
+        _id: getGuid(),
+        routine: { _id: undefined },
         scheduledTime: undefined,
         startTime: undefined,
         endTime: undefined,
+        paciente: {_id: undefined}
     },
     validationErrors: {
         routine: '',
@@ -66,7 +68,8 @@ class WorkoutDialog extends Component {
     handleSaveClick = () => {
         this.setState({
             validationErrors: {
-                routine: this.state.workout.routine.id === undefined ? 'Un Estudio debe ser Seleccionado.' : '',
+                routine: this.state.workout.routine._id === undefined ? 'Un Estudio debe ser Seleccionado.' : '',
+                paciente: this.state.workout.paciente._id === undefined ? 'Un Paciente debe ser Seleccionado.' : '',
             },
         }, () => {
             if (Object.keys(this.state.validationErrors).find(e => this.state.validationErrors[e] !== '') === undefined) {
@@ -111,7 +114,17 @@ class WorkoutDialog extends Component {
             validationErrors: { routine: '' },
             workout: { 
                 ...this.state.workout, 
-                routine: this.props.routines.find(r => r.id === value),
+                routine: this.props.routines.find(r => r._id === value),
+            }, 
+        });
+    }
+
+    handlePacienteChange = (event, index, value) => {
+        this.setState({ 
+            validationErrors: { paciente: '' },
+            workout: { 
+                ...this.state.workout, 
+                paciente: this.props.pacientes.find(r => r._id === value),
             }, 
         });
     }
@@ -131,6 +144,7 @@ class WorkoutDialog extends Component {
         }
         else if (!this.props.open && nextProps.open) {
             this.props.fetchRoutines();
+            this.props.fetchPacientes();
             
             if (nextProps.defaultDate) {
                 this.setState({ selectedDate: nextProps.defaultDate });
@@ -162,6 +176,25 @@ class WorkoutDialog extends Component {
                 modal={true}
                 open={this.props.open}
             >
+                <SelectField
+                    floatingLabelText="Paciente"
+                    value={this.state.workout.paciente._id}
+                    onChange={this.handlePacienteChange}
+                    errorText={this.state.validationErrors.paciente}
+                    style={styles.paciente}
+                >
+                    {this.props.pacientes.map(r => {
+                        let color = !r.color || r.color === 0 ? red500 : r.color;
+                        return (
+                            <MenuItem 
+                                key={r._id} 
+                                value={r._id} 
+                                primaryText={r.name}
+                                leftIcon={<ActionAssignment style={{ fill: color }}/>}
+                            />
+                        );
+                    })}
+                </SelectField>
                 <DatePicker 
                     floatingLabelText="Dia"
                     hintText="Dia"
@@ -184,7 +217,7 @@ class WorkoutDialog extends Component {
                 />
                 <SelectField
                     floatingLabelText="Estudio"
-                    value={this.state.workout.routine.id}
+                    value={this.state.workout.routine._id}
                     onChange={this.handleRoutineChange}
                     errorText={this.state.validationErrors.routine}
                     style={styles.routine}
@@ -193,8 +226,8 @@ class WorkoutDialog extends Component {
                         let color = !r.color || r.color === 0 ? red500 : r.color;
                         return (
                             <MenuItem 
-                                key={r.id} 
-                                value={r.id} 
+                                key={r._id} 
+                                value={r._id} 
                                 primaryText={r.name}
                                 leftIcon={<ActionAssignment style={{ fill: color }}/>}
                             />
@@ -209,11 +242,13 @@ class WorkoutDialog extends Component {
 
 const mapStateToProps = (state) => ({
     routines: state.routines,
+    pacientes: state.pacientes
 });
 
 const mapDispatchToProps = {
     showSnackbar,
     fetchRoutines,
+    fetchPacientes,
     addWorkout,
 };
 

@@ -54,7 +54,7 @@ export const addWorkout = (workout) => (dispatch, getState) => {
 
 export const updateWorkout = (workout) => (dispatch, getState) => {
     return new Promise((resolve, reject) => {
-        api.put(endpoint + "/" + workout.id, workout)
+        api.put(endpoint + "/" + workout._id, workout)
         .then(response => {
             if (response.status === 200) {
                 // because updating a workout may result in that workout being

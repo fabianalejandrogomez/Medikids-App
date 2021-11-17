@@ -43,21 +43,19 @@ class Workout extends Component {
     }
 
     getWorkout = (props = this.props) => {
-        let workout = props && props.workouts ? props.workouts.find(w => w.id === props.match.params.id) : undefined;
+        let workout = props && props.workouts ? props.workouts.find(w => w._id === props.match.params.id) : undefined;
         workout = workout ? workout : props && props.workoutsHistory && props.workoutsHistory.workout ? props.workoutsHistory.workout : undefined;
-
         return workout;
     }
-
+    
     fetchWorkout = () => {
         this.setState({ 
             api: { ...this.state.api, isExecuting: true }}
         );
-
         return this.props.fetchWorkouts()
         .then(response => {
             this.setState({ 
-                workout: response.data.find(w => w.id === this.props.match.params.id),
+                workout: response.data.find(w => w._id === this.props.match.params.id)
             }, () => {
                 if (!this.state.workout) {
                     this.props.fetchWorkoutHistory(this.props.match.params.id)
@@ -78,13 +76,14 @@ class Workout extends Component {
             this.props.showSnackbar('Error fetching Workouts: ' + error);
             this.setState({ api: { isExecuting: false, isErrored: true }});
         });
+        
     }
 
     handleWorkoutHistoryDelete = () => {
         let workout = this.getWorkout(); 
 
         return new Promise((resolve, reject) => {
-            this.props.deleteWorkoutHistory(workout.id)
+            this.props.deleteWorkoutHistory(workout._id)
             .then(response => {
                 this.props.showSnackbar('Deleted Workout history for \'' + workout.routine.name + '\'.');
                 this.navigate('../');
@@ -152,7 +151,7 @@ class Workout extends Component {
         let workout = this.getWorkout(); 
 
         workout.routine.exercises = workout.routine.exercises.map(e => {
-            return e.sequence === exercise.sequence && e.id === exercise.id ? exercise : e;
+            return e.sequence === exercise.sequence && e._id === exercise._id ? exercise : e;
         });
 
         return this.handleWorkoutChange(workout);
@@ -211,7 +210,7 @@ class Workout extends Component {
         let workout = this.getWorkout();
 
         return new Promise((resolve, reject) => {
-            this.props.deleteWorkout(workout.id)
+            this.props.deleteWorkout(workout._id)
             .then(response => {
                 this.props.showSnackbar('Evento Borrado \'' + workout.routine.name + '\'.');
                 this.navigate('../');
@@ -237,7 +236,6 @@ class Workout extends Component {
         let editMode = this.props.location.pathname.split('/')
                         .map(s => s.toLowerCase())
                         .indexOf('edit') > 0;
-
         return (
             this.state.api.isExecuting ? <Spinner size={48}/> : 
                 this.state.api.isErrored || workout === undefined ? <ActionHighlightOff style={{ ...styles.icon, color: red500 }} /> :

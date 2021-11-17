@@ -15,18 +15,18 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 
 import Spinner from '../shared/Spinner';
 
-import { CARD_WIDTH, EXERCISE_TYPES, EXERCISE_AVATAR_COLOR } from '../../constants';
+import { CARD_WIDTH, PACIENTE_TYPES, PACIENTE_AVATAR_COLOR } from '../../constants';
 import { getElapsedTime } from '../../util';
 
-import ExerciseHistoryDialog from './history/ExerciseHistoryDialog';
-import ExerciseProgressDialog from './history/ExerciseProgressDialog';
+import PacienteHistoryDialog from './history/PacienteHistoryDialog';
+import PacienteProgressDialog from './history/PacienteProgressDialog';
 import { AvPlayArrow, AvStop, AvFastRewind, AvReplay } from 'material-ui/svg-icons';
 import Divider from 'material-ui/Divider/Divider';
 import ConfirmDialog from '../shared/ConfirmDialog';
 
 const styles = {
     cardHeader: {
-        backgroundColor: EXERCISE_AVATAR_COLOR,
+        backgroundColor: PACIENTE_AVATAR_COLOR,
         marginBottom: 0,
     },
     cardTitle: {
@@ -67,7 +67,7 @@ const styles = {
 
 const initialState = {
     ticker: 0,
-    exercise: undefined,
+    paciente: undefined,
     api: {
         isExecuting: false,
         isErrored: false,
@@ -83,8 +83,8 @@ const initialState = {
     },
 };
 
-class ExerciseForm extends Component {
-    state = { ...initialState, exercise: this.props.exercise };
+class PacienteForm extends Component {
+    state = { ...initialState, paciente: this.props.paciente };
 
     timer;
 
@@ -106,9 +106,9 @@ class ExerciseForm extends Component {
 
     handleMetricChange = (event, value, metric) => {
         this.setState({ 
-            exercise: { 
-                ...this.state.exercise,
-                metrics: this.state.exercise.metrics.map(m => {
+            paciente: { 
+                ...this.state.paciente,
+                metrics: this.state.paciente.metrics.map(m => {
                     return m.name === metric.name ? { ...metric, value: value } : m;
                 }),
             },
@@ -120,7 +120,7 @@ class ExerciseForm extends Component {
     }
 
     handleResetConfirm = () => {
-        let e = { ...this.state.exercise };
+        let e = { ...this.state.paciente };
 
         delete e.startTime;
         delete e.endTime;
@@ -130,7 +130,7 @@ class ExerciseForm extends Component {
             delete m.value;
         });
 
-        return this.updateExercise(e, true);
+        return this.updatePaciente(e, true);
     }
 
     handleResetClose = (result) => {
@@ -138,27 +138,27 @@ class ExerciseForm extends Component {
     }
 
     handleNotesChange = (event, value) => {
-        this.setState({ exercise: { ...this.state.exercise, notes: value }});
+        this.setState({ paciente: { ...this.state.paciente, notes: value }});
     }
 
     handleActionClick = () => {
-        if (!this.props.exercise.startTime) {
-            this.updateExercise({ ...this.state.exercise, startTime: new Date().getTime() });
+        if (!this.props.paciente.startTime) {
+            this.updatePaciente({ ...this.state.paciente, startTime: new Date().getTime() });
         }
-        else if (!this.props.exercise.endTime) {
-            this.updateExercise({ ...this.state.exercise, endTime: Date.now() });
+        else if (!this.props.paciente.endTime) {
+            this.updatePaciente({ ...this.state.paciente, endTime: Date.now() });
         }
         else {
-            this.updateExercise({ ...this.props.exercise, startTime: new Date().getTime(), endTime: undefined });
+            this.updatePaciente({ ...this.props.paciente, startTime: new Date().getTime(), endTime: undefined });
         }
     }
 
-    updateExercise = (exercise, suppressApi = false) => {
+    updatePaciente = (paciente, suppressApi = false) => {
         return new Promise((resolve, reject) => {
             this.setState({ 
                 api: !suppressApi ? { ...this.state.api, isExecuting: true } : this.state.api,
             }, () =>
-                this.props.onChange(exercise)
+                this.props.onChange(paciente)
                 .then(() => {
                     this.setState({ api: { ...this.state.api, isExecuting: false }}, () => resolve());
                 }, error => {
@@ -181,18 +181,18 @@ class ExerciseForm extends Component {
     }
 
     componentWillReceiveProps = (nextProps) => {
-        if (this.state.exercise.startTime !== nextProps.exercise.startTime || this.state.exercise.endTime !== nextProps.exercise.endTime) {
-            this.setState({ exercise: nextProps.exercise });
+        if (this.state.paciente.startTime !== nextProps.paciente.startTime || this.state.paciente.endTime !== nextProps.paciente.endTime) {
+            this.setState({ paciente: nextProps.paciente });
         }
     }
 
     render() {
-        let exerciseImage = this.props.exercise.type;
-        if (EXERCISE_TYPES.indexOf(exerciseImage) === -1) { 
-            exerciseImage = 'unknown';
+        let pacienteImage = this.props.paciente.type;
+        if (PACIENTE_TYPES.indexOf(pacienteImage) === -1) { 
+            pacienteImage = 'unknown';
         }
 
-        let started = this.props.exercise.startTime;
+        let started = this.props.paciente.startTime;
 
         return (
             <div>
@@ -211,18 +211,18 @@ class ExerciseForm extends Component {
                         title={
                             <span 
                                 style={styles.link}
-                                onClick={() => window.open(this.props.exercise.url)}
+                                onClick={() => window.open(this.props.paciente.url)}
                             >
-                                {this.props.exercise.name}
+                                {this.props.paciente.name}
                             </span>
                         }
-                        subtitle={started ? 'Elapsed time ' + getElapsedTime(this.props.exercise.startTime, this.props.exercise.endTime) : undefined}
+                        subtitle={started ? 'Elapsed time ' + getElapsedTime(this.props.paciente.startTime, this.props.paciente.endTime) : undefined}
                         avatar={
                             <Avatar 
                                 style={{marginTop: started ? 4 : 0}}
-                                backgroundColor={EXERCISE_AVATAR_COLOR} 
+                                backgroundColor={PACIENTE_AVATAR_COLOR} 
                                 size={32} 
-                                src={process.env.PUBLIC_URL + '/img/' + exerciseImage.toLowerCase() + '.png'} 
+                                src={process.env.PUBLIC_URL + '/img/' + pacienteImage.toLowerCase() + '.png'} 
                             />
                         }
                     >
@@ -235,7 +235,7 @@ class ExerciseForm extends Component {
                         onClick={this.handleActionClick}
                     >
                         {!started ? <AvPlayArrow/> :
-                            !this.props.exercise.endTime ? <AvStop/> : <AvFastRewind/>
+                            !this.props.paciente.endTime ? <AvStop/> : <AvFastRewind/>
                         }
                     </FloatingActionButton>
                     <IconMenu
@@ -247,15 +247,15 @@ class ExerciseForm extends Component {
                         <MenuItem primaryText="Resetear" onClick={this.handleResetClick} leftIcon={<AvReplay/>}/>                      
                     </IconMenu>
                     <CardText style={styles.text}>
-                        {this.state.exercise.metrics ? 
-                            this.state.exercise.metrics.map((m, index) =>    
+                        {this.state.paciente.metrics ? 
+                            this.state.paciente.metrics.map((m, index) =>    
                                 <TextField
                                     key={index}
                                     hintText={this.getMetricDisplayName(m)}
                                     floatingLabelText={this.getMetricDisplayName(m)}
                                     onChange={(e,v) => this.handleMetricChange(e,v,m)}
                                     value={m.value ? m.value : ''}
-                                    disabled={this.state.exercise.endTime !== undefined || this.state.exercise.startTime === undefined}
+                                    disabled={this.state.paciente.endTime !== undefined || this.state.paciente.startTime === undefined}
                                 />
                             ) : ''
                         }
@@ -265,20 +265,20 @@ class ExerciseForm extends Component {
                             floatingLabelText={'Notas'}
                             multiLine={true}
                             onChange={this.handleNotesChange}
-                            value={this.state.exercise.notes ? this.state.exercise.notes : ''}
-                            disabled={this.state.exercise.endTime !== undefined || this.state.exercise.startTime === undefined}
+                            value={this.state.paciente.notes ? this.state.paciente.notes : ''}
+                            disabled={this.state.paciente.endTime !== undefined || this.state.paciente.startTime === undefined}
                         />
                     {this.state.api.isExecuting ? <Spinner/> : ''}
                 </Card>
-                <ExerciseHistoryDialog
+                <PacienteHistoryDialog
                     open={this.state.historyDialog.open}
                     onClose={this.handleHistoryClose}
-                    exercise={this.state.exercise}
+                    paciente={this.state.paciente}
                 />
-                <ExerciseProgressDialog
+                <PacienteProgressDialog
                     open={this.state.progressDialog.open}
                     onClose={this.handleProgressClose}
-                    exercise={this.state.exercise}
+                    paciente={this.state.paciente}
                 />
                 <ConfirmDialog 
                     title={'Resetear Medicion'}
@@ -287,11 +287,11 @@ class ExerciseForm extends Component {
                     onClose={this.handleResetClose}
                     open={this.state.resetDialog.open} 
                 >
-                    Estas seguro que queres resetar una Medicion? '{this.state.exercise.name}'?
+                    Estas seguro que queres resetar una Medicion? '{this.state.paciente.name}'?
                 </ConfirmDialog>
             </div>
         );
     }
 }
 
-export default ExerciseForm;
+export default PacienteForm;

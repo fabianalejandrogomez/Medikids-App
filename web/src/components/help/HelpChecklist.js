@@ -10,6 +10,7 @@ import Avatar from 'material-ui/Avatar';
 import Spinner from '../shared/Spinner';
 
 import { fetchExercises } from '../exercises/ExercisesActions';
+import { fetchPacientes } from '../pacientes/PacientesActions';
 import { fetchRoutines } from '../routines/RoutinesActions';
 import { fetchWorkouts } from '../workouts/WorkoutsActions';
 import { fetchWorkoutsHistory } from '../workouts/history/WorkoutsHistoryActions';
@@ -54,6 +55,7 @@ class HelpChecklist extends Component {
                         this.props.fetchExercises(),
                         this.props.fetchRoutines(),
                         this.props.fetchWorkouts(),
+                        this.props.fetchPacientes(),
                     ])
                     .then(response => {
                         this.setState({ api: { isExecuting: false, isErrored: false }});
@@ -72,6 +74,7 @@ class HelpChecklist extends Component {
 
     render() {
         let noExercises = !this.props.exercises.length;
+        let noPacientes = !this.props.pacientes.length;
         let noRoutines = !this.props.routines.length;
         let noWorkoutsHistory = !this.state.historyExists;
         let noWorkouts = noWorkoutsHistory && !this.props.workouts.length;
@@ -89,11 +92,19 @@ class HelpChecklist extends Component {
                         </CardHeader>
                         <CardText>
                             <List>
+                            <ListItem
+                                    leftIcon={!noPacientes ? <ToggleCheckBox color={green500}/> : <ToggleCheckBoxOutlineBlank color={black}/>}
+                                    insetChildren={true}
+                                    primaryText="Agregar un Paciente"
+                                    onClick={() => this.navigate('/pacientes')}
+                                />
                                 <ListItem
-                                    leftIcon={!noExercises ? <ToggleCheckBox color={green500}/> : <ToggleCheckBoxOutlineBlank color={black}/>}
+                                    leftIcon={!noExercises ? <ToggleCheckBox color={green500}/> : <ToggleCheckBoxOutlineBlank color={noPacientes ? grey500 : black}/>}
                                     insetChildren={true}
                                     primaryText="Agregar una Medicion"
                                     onClick={() => this.navigate('/exercises')}
+                                    disabled={noPacientes}
+                                    style={noPacientes ? styles.disabled : undefined}
                                 />
                                 <ListItem
                                     leftIcon={!noRoutines ? <ToggleCheckBox color={green500}/> : <ToggleCheckBoxOutlineBlank color={noExercises ? grey500 : black}/>}
@@ -127,6 +138,7 @@ class HelpChecklist extends Component {
 }
 
 const mapStateToProps = (state) => ({
+    pacientes: state.pacientes,
     exercises: state.exercises,
     routines: state.routines,
     workouts: state.workouts,
@@ -134,6 +146,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
+    fetchPacientes,
     fetchExercises,
     fetchRoutines,
     fetchWorkouts,
